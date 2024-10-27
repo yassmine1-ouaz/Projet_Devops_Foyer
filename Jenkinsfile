@@ -10,7 +10,7 @@ pipeline {
         stage('Récupération du code') {
             steps {
                 // Obtenir du code à partir d'un dépôt GitHub
-                git branch: 'BelhassenRezgui-groupe2-Foyer ', url: 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git'
+                git branch: 'BelhassenRezgui-groupe2-Foyer', url: 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git'
             }
         }
          stage('Lancement de Maven') {
