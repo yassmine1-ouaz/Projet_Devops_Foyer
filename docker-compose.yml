@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  tpfoyer-db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tpfoyer
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    networks:
+      - tpfoyer-network
+
+  tpfoyer-app:
+    build:
+      context: .
+    image: belhassenrezgui_groupe_tpfoyer
+    ports:
+      - "8089:8089"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://tpfoyer-db:3306/tpfoyer
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - tpfoyer-db
+    networks:
+      - tpfoyer-network
+
+networks:
+  tpfoyer-network:
+    driver: bridge
