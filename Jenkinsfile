@@ -22,5 +22,11 @@ pipeline {
                  //bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
+        stage('SonarQube analysis') {
+            steps {
+                sh 'mvn sonar:sonar -Dsonar.login=squ_309d2d05302fe2d880bca65fda52d00c5c309d7c'
+            }
+        }
+
     }
     }
