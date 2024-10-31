@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'tpfoyer-app'
+    static_configs:
+      - targets: ['tpfoyer-app:8089']  # Assurez-vous que le port est correct
