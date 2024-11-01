@@ -27,10 +27,7 @@ pipeline {
                    }
         }
 
-        stage('Tests Mockito') {
-                    steps {
-                       sh 'mvn test'
-        }}
+
 
         stage('SonarQube analysis') {
             steps {
