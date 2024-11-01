@@ -16,6 +16,22 @@ pipeline {
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
+        stage('Maven clean') {
+            steps {
+                         sh 'mvn clean'
+                    }
+        }
+        stage('Maven compile') {
+            steps {
+                         sh 'mvn compile'
+                   }
+        }
+
+        stage('Tests Mockito') {
+                    steps {
+                       sh 'mvn test'
+        }}
+
         stage('SonarQube analysis') {
             steps {
                 sh 'mvn sonar:sonar -Dsonar.login=squ_309d2d05302fe2d880bca65fda52d00c5c309d7c'
@@ -26,11 +42,31 @@ pipeline {
                 sh 'mvn deploy -DskipTests'
             }
         }
-        stage('Démarrage des conteneurs Docker') {
-            steps {
-                sh 'docker-compose -f docker-compose.yml up -d'
-            }
-        }
+        stage('Build Image Docker') {
+                  steps {
+                   sh 'docker build -t belhassenrezgui_tpfoyer .'
+                  }
+               }
+               stage('Deploy image to Docker Hub') {
+                 steps {
+
+                    sh 'docker login -u belho -p Belho27666629.'
+                    echo "next"
+                    sh 'docker tag belhassenrezgui_tpfoyer belho/belhassenrezgui_tpfoyer:latest'
+                    sh 'docker push belho/belhassenrezgui_tpfoyer:latest'
+
+                 }
+              }
+
+              stage('Docker Compose') {
+           steps {
+               script {
+                  sh 'docker compose down'
+                  sh 'docker compose up -d'
+               }
+           }
+       }
+
         stage('Vérification de Prometheus') {
             steps {
                 script {

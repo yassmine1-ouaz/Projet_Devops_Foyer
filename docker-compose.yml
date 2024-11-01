@@ -1,29 +1,37 @@
 version: '3.8'
+
 services:
-  tpfoyer-db:
+  mysql:
     image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: tpfoyer
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+    restart: unless-stopped
+    container_name: mysql
     ports:
       - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: db
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - mysql_config:/etc/mysql/conf.d
     networks:
       - tpfoyer-network
+
 
   tpfoyer-app:
     build:
       context: .
-    image: belhassenrezgui_groupe_tpfoyer
+    image: belhassenrezgui_tpfoyer
+    restart: on-failure
+    container_name: tp-foyer
     ports:
       - "8089:8089"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://tpfoyer-db:3306/tpfoyer
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: password
+
     depends_on:
-      - tpfoyer-db
+      - mysql
     networks:
       - tpfoyer-network
 
@@ -46,6 +54,10 @@ services:
       - prometheus
     networks:
       - tpfoyer-network
+
+volumes:
+  mysql_data:
+  mysql_config:
 
 networks:
   tpfoyer-network:
