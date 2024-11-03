@@ -39,12 +39,12 @@ pipeline {
             }
         }
         
-        /* stage('MVN DEPLOY') {
+         stage('NEXUS') {
             steps {
                echo "Deploying to Nexus repository"
                // Déploie en sautant les tests avec -DskipTests
                sh 'mvn deploy -DskipTests'
             }
-        } */
+        } 
     }
 }
