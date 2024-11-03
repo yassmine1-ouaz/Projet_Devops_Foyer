@@ -7,8 +7,8 @@ pipeline {
             steps {
                 
                echo "Getting project from GIT"
-               git 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git'
-               //git branch: 'Yassmine_Ouaz_G2_Foyer', 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git' 
+               //git 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git'
+               git branch: 'Yassmine_Ouaz_G2_Foyer', 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git' 
                
             }
         }
