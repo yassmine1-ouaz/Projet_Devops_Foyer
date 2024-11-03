@@ -34,17 +34,12 @@ pipeline {
             steps {
                 
                echo "Running SonarQube analysis"
-              // withCredentials([string(credentialsId: 'squ_50f79dfb86e289418110f32436eb1b1f28547944', variable: 'SONAR_TOKEN')]) {
-              //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
-              // }
                sh 'mvn sonar:sonar -Dsonar.login=squ_362f202801570b397801935e3930b0b15e91eeba'
-            
-            
                // sh 'mvn sonar:sonar'
             }
         }
         
-      /*  stage('MVN DEPLOY') {
+        /* stage('MVN DEPLOY') {
             steps {
                echo "Deploying to Nexus repository"
                // Déploie en sautant les tests avec -DskipTests
