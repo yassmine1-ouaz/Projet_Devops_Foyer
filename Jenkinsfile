@@ -39,11 +39,18 @@ pipeline {
             }
         }
         
+<<<<<<< HEAD
          stage('NEXUS') {
+=======
+         stage('MVN DEPLOY') {
+>>>>>>> a0e7c2b (Deploy NEXUS Jenkinsfile)
             steps {
                echo "Deploying to Nexus repository"
                // Déploie en sautant les tests avec -DskipTests
-               sh 'mvn deploy -DskipTests'
+               //sh 'mvn deploy -DskipTests'
+                    withCredentials([usernamePassword(credentialsId: 'nexus-credentials-id', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                    sh 'mvn deploy -DskipTests -Dusername=$NEXUS_USERNAME -Dpassword=$NEXUS_PASSWORD'
+                }
             }
         } 
     }
