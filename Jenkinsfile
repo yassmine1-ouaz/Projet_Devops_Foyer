@@ -8,7 +8,7 @@ pipeline {
                 
                echo "Getting project from GIT"
                //git 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git'
-               git branch: 'Yassmine_Ouaz_G2_Foyer', 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git' 
+               git branch: 'Yassmine_Ouaz_G2_Foyer', url: 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git' 
                
             }
         }
@@ -49,10 +49,10 @@ pipeline {
             steps {
                echo "Deploying to Nexus repository"
                // Déploie en sautant les tests avec -DskipTests
-               //sh 'mvn deploy -DskipTests'
-                    withCredentials([usernamePassword(credentialsId: 'nexus-credentials-id', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-                    sh 'mvn deploy -DskipTests -Dusername=$NEXUS_USERNAME -Dpassword=$NEXUS_PASSWORD'
-                }
+               sh 'mvn deploy -DskipTests'
+                  //  withCredentials([usernamePassword(credentialsId: 'nexus-credentials-id', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                  //  sh 'mvn deploy -DskipTests -Dusername=$NEXUS_USERNAME -Dpassword=$NEXUS_PASSWORD'
+                //}
             }
         } 
     }
