@@ -7,8 +7,8 @@ pipeline {
             steps {
                 
                echo "Getting project from GIT"
-                 git 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git'
-               //git branch: 'master', 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git' 
+               git 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git'
+               //git branch: 'Yassmine_Ouaz_G2_Foyer', 'https://github.com/yassmine1-ouaz/Projet_Devops_Foyer.git' 
                
             }
         }
@@ -33,17 +33,19 @@ pipeline {
         stage('MVN SONARQUBE') {
             steps {
                 
-               echo "Running SonarQube analysis"
+               echo "Running SonarQube analysis
+              
+              // withCredentials([string(credentialsId: 'squ_50f79dfb86e289418110f32436eb1b1f28547944', variable: 'SONAR_TOKEN')]) {
+              //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
+              // }
                sh 'mvn sonar:sonar -Dsonar.login=squ_362f202801570b397801935e3930b0b15e91eeba'
-               // sh 'mvn sonar:sonar'
+            
             }
         }
         
-<<<<<<< HEAD
+
          stage('NEXUS') {
-=======
-         stage('MVN DEPLOY') {
->>>>>>> a0e7c2b (Deploy NEXUS Jenkinsfile)
+
             steps {
                echo "Deploying to Nexus repository"
                // Déploie en sautant les tests avec -DskipTests
@@ -51,7 +53,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'nexus-credentials-id', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
                     sh 'mvn deploy -DskipTests -Dusername=$NEXUS_USERNAME -Dpassword=$NEXUS_PASSWORD'
                 }
-            }
+            
         } 
     }
 }
