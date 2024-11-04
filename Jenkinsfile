@@ -27,27 +27,11 @@ pipeline {
                    }
         }
 
-
-
-        stage('SonarQube analysis') {
-            steps {
-                sh 'mvn sonar:sonar -Dsonar.login=squ_5f1592bfc2827598bc05316c1342afca5eca87dc'
-            }
-        }
         stage('Nexus') {
             steps {
                 sh 'mvn deploy -DskipTests'
             }
         }
-
-              stage('Docker Compose') {
-           steps {
-               script {
-                  sh 'docker compose down'
-                  sh 'docker compose up -d'
-               }
-           }
-       }
 
     }
 }
