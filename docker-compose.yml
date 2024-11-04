@@ -26,7 +26,7 @@ services:
     ports:
       - "8089:8089"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://tpfoyer-db:3306/tpfoyer
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db
     depends_on:
       - mysql
     networks:
