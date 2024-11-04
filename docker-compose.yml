@@ -11,13 +11,11 @@ services:
       MYSQL_ROOT_PASSWORD:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       MYSQL_DATABASE: db
-
     volumes:
       - mysql_data:/var/lib/mysql
       - mysql_config:/etc/mysql/conf.d
     networks:
       - tpfoyer-network
-
 
   tpfoyer-app:
     build:
@@ -29,7 +27,6 @@ services:
       - "8089:8089"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://tpfoyer-db:3306/tpfoyer
-
     depends_on:
       - mysql
     networks:
@@ -55,9 +52,30 @@ services:
     networks:
       - tpfoyer-network
 
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    networks:
+      - tpfoyer-network
+
+  nexus:
+    image: sonatype/nexus3
+    container_name: nexus
+    ports:
+      - "8081:8081"
+    volumes:
+      - nexus_data:/nexus-data
+    networks:
+      - tpfoyer-network
+
 volumes:
   mysql_data:
   mysql_config:
+  nexus_data:
 
 networks:
   tpfoyer-network:
