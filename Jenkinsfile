@@ -39,5 +39,24 @@ pipeline {
             }
         }
 
+         stage('Vérification de Prometheus') {
+                    steps {
+                        script {
+                            // Attendre un peu pour que Prometheus démarre
+                            sleep(10)
+                            sh 'curl -f http://localhost:9090/api/v1/status || echo "Prometheus is not running"'
+                        }
+                    }
+                }
+                stage('Vérification de Grafana') {
+                    steps {
+                        script {
+                            // Attendre un peu pour que Grafana démarre
+                            sleep(10)
+                            sh 'curl -f http://localhost:3000/api/health || echo "Grafana is not running"'
+                        }
+                    }
+
+
     }
 }
