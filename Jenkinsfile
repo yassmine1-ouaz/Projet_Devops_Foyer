@@ -44,7 +44,7 @@ pipeline {
                         script {
                             // Attendre un peu pour que Prometheus démarre
                             sleep(10)
-                            sh 'curl -f http://localhost:9090/api/v1/status || echo "Prometheus is not running"'
+                            sh 'curl -f http://localhost:9090/-/ready || echo "Prometheus is not ready"'
                         }
                     }
                 }
