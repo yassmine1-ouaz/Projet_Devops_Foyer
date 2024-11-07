@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class EtudiantServiceImplTest {
+   class EtudiantServiceImplTest {
 
     @Mock
     private EtudiantRepository etudiantRepository;
@@ -35,7 +35,7 @@ public class EtudiantServiceImplTest {
     }
 
     @Test
-    public void testRetrieveEtudiant() {
+      void testRetrieveEtudiant() {
         when(etudiantRepository.findById(1L)).thenReturn(Optional.of(etudiant));
 
         Etudiant result = etudiantService.retrieveEtudiant(1L);
@@ -48,7 +48,7 @@ public class EtudiantServiceImplTest {
     }
 
     @Test
-    public void testAddEtudiant() {
+     void testAddEtudiant() {
         when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
 
         Etudiant result = etudiantService.addEtudiant(etudiant);
