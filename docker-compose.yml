@@ -8,7 +8,7 @@ services:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=foyer_db
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - db:/var/lib/mysql
   app-foyer:
