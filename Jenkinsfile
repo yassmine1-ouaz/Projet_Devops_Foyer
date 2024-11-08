@@ -40,6 +40,22 @@ pipeline {
             }
         }
 
+        stage('Build image') {
+                   steps {
+                    sh 'docker build -t belhassen_rezgui_tpfoyer .'
+                   }
+                }
+
+                stage('Deploy Image to DockerHub') {
+                   steps {
+                 sh 'docker login -u belho -p Belho27666629.'
+                 echo "next"
+                 sh "docker tag belhassen_rezgui_tpfoyer belho/belhassen_rezgui_tpfoyer:Latest "
+                 sh 'docker push belho/belhassen_rezgui_tpfoyer:latest
+'
+                      }
+               }
+
          stage('Vérification de Prometheus') {
                     steps {
                         script {
