@@ -12,16 +12,11 @@ pipeline {
             }
         }
 
-        stage('Maven clean') {
-            steps {
-                         sh 'mvn clean'
+         stage('Clean & Build') {
+                    steps {
+                       sh 'mvn clean install -DskipTests'
                     }
-        }
-        stage('Maven compile') {
-            steps {
-                         sh 'mvn compile'
-                   }
-        }
+                }
         stage('Tests Mockito et junit') {
                     steps {
                        sh 'mvn test'
