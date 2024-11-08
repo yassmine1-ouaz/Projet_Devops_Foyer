@@ -50,9 +50,8 @@ pipeline {
                    steps {
                  sh 'docker login -u belho -p Belho27666629.'
                  echo "next"
-                 sh "docker tag belhassen_rezgui_tpfoyer belho/belhassen_rezgui_tpfoyer:Latest "
-                 sh 'docker push belho/belhassen_rezgui_tpfoyer:latest
-'
+                 sh 'docker tag belhassen_rezgui_tpfoyer belho/belhassen_rezgui_tpfoyer:latest '
+                 sh 'docker push belho/belhassen_rezgui_tpfoyer:latest'
                       }
                }
 
