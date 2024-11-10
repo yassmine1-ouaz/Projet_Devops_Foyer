@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven "M2_HOME"  // Assurez-vous que c'est le bon nom
+        maven "M2_HOME"  // Assurez-vous que "M2_HOME" correspond bien à votre configuration Maven
     }
 
     stages {
@@ -12,35 +12,37 @@ pipeline {
             }
         }
 
-         stage('Clean & Build') {
-                    steps {
-                       sh 'mvn clean install -DskipTests'
-
-                }
-                stage('Create target directory') {
-                                    steps {
-                                       sh 'mvn clean package'
-
-                                }
-        stage('Tests Mockito et junit') {
-                    steps {
-                       sh 'mvn test'
-                    }
-                }
-
-         stage('SonarQube analysis') {
-                    steps {
-                        sh 'mvn sonar:sonar -Dsonar.login=squ_d5e70ad53e9a2cb4224b30e7545d06c7bb6faf98'
-                    }
-                }
-
-        stage('Nexus') {
+        stage('Clean & Build') {
             steps {
-                sh 'mvn deploy -DskipTests'
+                sh 'mvn clean install -DskipTests'
             }
         }
 
-        stage('Build image') {
+        stage('Create target directory') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Tests Mockito et JUnit') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        // stage('SonarQube analysis') {
+        //             steps {
+        //                 sh 'mvn sonar:sonar -Dsonar.login=squ_d5e70ad53e9a2cb4224b30e7545d06c7bb6faf98'
+        //             }
+        //         }
+
+        // stage('Déploiement Nexus') {
+        //     steps {
+        //         sh 'mvn deploy -DskipTests'
+        //     }
+        // }
+
+         stage('Build image') {
                    steps {
                     sh 'docker build -t belhassen_rezgui_tpfoyer .'
                    }
@@ -54,26 +56,47 @@ pipeline {
                  sh 'docker push belho/belhassen_rezgui_tpfoyer:latest'
                       }
                }
+   stage('Deploy with Docker Compose') {
+            steps {
+                dir('firstpipeline') {
+                    sh 'docker compose down'
+                    sh " docker compose up -d" //IMAGE_TAG=${IMAGE_TAG}
 
-         stage('Vérification de Prometheus') {
-                    steps {
-                        script {
-                            // Attendre un peu pour que Prometheus démarre
-                            sleep(10)
-                            sh 'curl -f http://localhost:9090/-/ready || echo "Prometheus is not ready"'
-                        }
-                    }
                 }
-                stage('Vérification de Grafana') {
-                    steps {
-                        script {
-                            // Attendre un peu pour que Grafana démarre
-                            sleep(10)
-                            sh 'curl -f http://localhost:3000/api/health || echo "Grafana is not running"'
-                        }
-                    }
+            }
+        }
 
+        stage('Démarrage de Grafana et Prometheus') {
+            steps {
+                sh 'docker start grafana'
+                sh 'docker start prometheus'
+            }
+        }
 
+        stage('Vérification de Prometheus') {
+            steps {
+                script {
+                    sleep(10)  // Attendre que Prometheus soit prêt
+                    sh 'curl -f http://localhost:9090/-/ready || echo "Prometheus is not ready"'
+                }
+            }
+        }
+
+        stage('Vérification de Grafana') {
+            steps {
+                script {
+                    sleep(10)  // Attendre que Grafana soit prêt
+                    sh 'curl -f http://localhost:3000/api/health || echo "Grafana is not running"'
+                }
+            }
+        }
     }
-}
+    post {
+        success {
+            slackSend channel: '#devops-notification', color: 'green', message: 'Build success', teamDomain: 'Devops', tokenCredentialId: 'slack-token'
+        }
+        failure {
+            slackSend channel: '#devops-notification', color: 'red', message: 'Build failed', teamDomain: 'Devops', tokenCredentialId: 'slack-token'
+        }
+    }
 }
