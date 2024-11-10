@@ -30,17 +30,17 @@ pipeline {
             }
         }
 
-        // stage('SonarQube analysis') {
-        //             steps {
-        //                 sh 'mvn sonar:sonar -Dsonar.login=squ_d5e70ad53e9a2cb4224b30e7545d06c7bb6faf98'
-        //             }
-        //         }
+         stage('SonarQube analysis') {
+                     steps {
+                         sh 'mvn sonar:sonar -Dsonar.login=squ_d5e70ad53e9a2cb4224b30e7545d06c7bb6faf98'
+                     }
+                 }
 
-        // stage('Déploiement Nexus') {
-        //     steps {
-        //         sh 'mvn deploy -DskipTests'
-        //     }
-        // }
+         stage('Déploiement Nexus') {
+             steps {
+                 sh 'mvn deploy -DskipTests'
+             }
+         }
 
          stage('Build image') {
                    steps {
