@@ -15,8 +15,13 @@ pipeline {
          stage('Clean & Build') {
                     steps {
                        sh 'mvn clean install -DskipTests'
-                    }
+
                 }
+                stage('Create target directory') {
+                                    steps {
+                                       sh 'mvn clean package'
+
+                                }
         stage('Tests Mockito et junit') {
                     steps {
                        sh 'mvn test'

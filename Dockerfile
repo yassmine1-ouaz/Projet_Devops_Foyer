@@ -1,6 +1,10 @@
-FROM openjdk:17-jdk-slim
+FROM openjdk:17
+
+# Set the working directory
+WORKDIR /app
+
+COPY target/*.jar /app.jar
+
 EXPOSE 8089
 
-ADD target/tp-foyer-5.0.0.jar tp-foyer-5.0.0.jar
-ENTRYPOINT ["java", "-jar", "tp-foyer-5.0.0.jar"]
-
+ENTRYPOINT ["java", "-jar", "/app.jar"]
