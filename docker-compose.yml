@@ -14,7 +14,7 @@ services:
       - db:/var/lib/mysql
 
   spring-boot-app:
-    image: belho/belhassen_rezgui_tpfoyer:latest # Utilisation de la variable d'environnement IMAGE_TAG  ${IMAGE_TAG}
+    image: belho/belhassen_rezgui_tpfoyer:${IMAGE_TAG} # Utilisation de la variable d'environnement IMAGE_TAG  ${IMAGE_TAG}
     container_name: app-back
     ports:
       - "8089:8089"
