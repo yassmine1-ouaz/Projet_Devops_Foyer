@@ -22,6 +22,15 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=db
+  front-kaddem:
+    image: rakizouari/front
+    ports:
+      - "80:80"
+    networks:
+      - foyerr
+    depends_on:
+      - spring-tpfoyer
+      - mysqldb
 
 networks:
   foyerr:
