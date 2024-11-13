@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BlocServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tp-foyer</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.tpfoyer.service</a> &gt; <span class="el_source">BlocServiceImpl.java</span></div><h1>BlocServiceImpl.java</h1><pre class="source lang-java linenums">package tn.esprit.tpfoyer.service;
+
+
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import tn.esprit.tpfoyer.entity.Bloc;
+import tn.esprit.tpfoyer.repository.BlocRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@AllArgsConstructor
+<span class="nc" id="L19">@Slf4j  // Simple Loggining Façade For Java</span>
+public class BlocServiceImpl  implements IBlocService {
+
+<span class="nc" id="L22">    private static final Logger logger = LogManager.getLogger(BlocServiceImpl.class);</span>
+
+    BlocRepository blocRepository;
+
+    @Scheduled(fixedRate = 30000) // millisecondes // cron fixedRate
+    //@Scheduled(cron=&quot;0/15 * * * * *&quot;)
+
+
+    public List&lt;Bloc&gt; retrieveAllBlocs() {
+<span class="nc" id="L31">        List&lt;Bloc&gt; listB = blocRepository.findAll();</span>
+<span class="nc" id="L32">        logger.info(&quot;Total blocks: &quot; + listB.size());</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        for (Bloc b : listB) {</span>
+<span class="nc" id="L34">            logger.debug(&quot;Block: &quot; + b);</span>
+<span class="nc" id="L35">        }</span>
+<span class="nc" id="L36">        return listB;</span>
+    }
+
+
+    // Exemple sans Keywords :
+
+    @Transactional
+    public List&lt;Bloc&gt; retrieveBlocsSelonCapacite(long c) {
+<span class="nc" id="L44">        logger.info(&quot;Récupération des blocs avec une capacité supérieure ou égale à {}&quot;, c);</span>
+<span class="nc" id="L45">        List&lt;Bloc&gt; listB = blocRepository.findAll();</span>
+<span class="nc" id="L46">        List&lt;Bloc&gt; listBselonC = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for (Bloc b : listB) {</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">            if (b.getCapaciteBloc() &gt;= c) {</span>
+<span class="nc" id="L50">                logger.debug(&quot;Ajout du bloc avec ID: {} et capacité: {}&quot;, b.getIdBloc(), b.getCapaciteBloc());</span>
+<span class="nc" id="L51">                listBselonC.add(b);</span>
+            }
+<span class="nc" id="L53">        }</span>
+
+<span class="nc" id="L55">        logger.info(&quot;Nombre total de blocs trouvés: {}&quot;, listBselonC.size());</span>
+<span class="nc" id="L56">        return listBselonC;</span>
+    }
+
+    @Transactional
+    public Bloc retrieveBloc(Long blocId) {
+<span class="nc" id="L61">        logger.info(&quot;Récupération du bloc avec ID: {}&quot;, blocId);</span>
+<span class="nc" id="L62">        Bloc bloc = blocRepository.findById(blocId).orElse(null);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        if (bloc != null) {</span>
+<span class="nc" id="L64">            logger.info(&quot;Bloc trouvé : {}&quot;, bloc);</span>
+        } else {
+<span class="nc" id="L66">            logger.warn(&quot;Aucun bloc trouvé avec l'ID: {}&quot;, blocId);</span>
+        }
+<span class="nc" id="L68">        return bloc;</span>
+    }
+
+
+    public Bloc addBloc(Bloc c) {
+<span class="nc" id="L73">        logger.info(&quot;Ajout d'un nouveau bloc : {}&quot;, c);</span>
+<span class="nc" id="L74">        Bloc savedBloc = blocRepository.save(c);</span>
+<span class="nc" id="L75">        logger.info(&quot;Bloc ajouté avec succès avec ID : {}&quot;, savedBloc.getIdBloc());</span>
+<span class="nc" id="L76">        return savedBloc;</span>
+    }
+
+    public Bloc modifyBloc(Bloc bloc) {
+<span class="nc" id="L80">        logger.info(&quot;Modification du bloc avec ID: {}&quot;, bloc.getIdBloc());</span>
+<span class="nc" id="L81">        Bloc updatedBloc = blocRepository.save(bloc);</span>
+<span class="nc" id="L82">        logger.info(&quot;Bloc modifié avec succès : {}&quot;, updatedBloc);</span>
+<span class="nc" id="L83">        return updatedBloc;</span>
+    }
+    public void removeBloc(Long blocId) {
+<span class="nc" id="L86">        logger.info(&quot;Suppression du bloc avec ID: {}&quot;, blocId);</span>
+<span class="nc" id="L87">        blocRepository.deleteById(blocId);</span>
+<span class="nc" id="L88">        logger.info(&quot;Bloc avec ID: {} supprimé&quot;, blocId);</span>
+<span class="nc" id="L89">    }</span>
+
+
+
+    public List&lt;Bloc&gt; trouverBlocsSansFoyer() {
+<span class="nc" id="L94">        logger.info(&quot;Récupération des blocs sans foyer associé&quot;);</span>
+<span class="nc" id="L95">        List&lt;Bloc&gt; blocsSansFoyer = blocRepository.findAllByFoyerIsNull();</span>
+<span class="nc" id="L96">        logger.info(&quot;Nombre de blocs sans foyer : {}&quot;, blocsSansFoyer.size());</span>
+<span class="nc" id="L97">        return blocsSansFoyer;</span>
+    }
+    public List&lt;Bloc&gt; trouverBlocsParNomEtCap(String nb, long c) {
+<span class="nc" id="L100">        logger.info(&quot;Récupération des blocs avec le nom '{}' et la capacité {}&quot;, nb, c);</span>
+<span class="nc" id="L101">        List&lt;Bloc&gt; blocs = blocRepository.findAllByNomBlocAndCapaciteBloc(nb, c);</span>
+<span class="nc" id="L102">        logger.info(&quot;Nombre de blocs trouvés : {}&quot;, blocs.size());</span>
+<span class="nc" id="L103">        return blocs;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

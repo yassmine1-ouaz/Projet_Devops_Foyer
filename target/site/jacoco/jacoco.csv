@@ -1,0 +1,16 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+tp-foyer,tn.esprit.tpfoyer.service,BlocServiceImpl,192,0,8,0,44,0,13,0,9,0
+tp-foyer,tn.esprit.tpfoyer.service,EtudiantServiceImpl,33,0,0,0,7,0,6,0,6,0
+tp-foyer,tn.esprit.tpfoyer.service,ChambreServiceImpl,56,0,0,0,15,0,8,0,8,0
+tp-foyer,tn.esprit.tpfoyer.service,ReservationServiceImpl,34,0,0,0,7,0,6,0,6,0
+tp-foyer,tn.esprit.tpfoyer.service,UniversiteServiceImpl,4,89,1,1,1,22,1,6,0,6
+tp-foyer,tn.esprit.tpfoyer.service,FoyerServiceImpl,28,0,0,0,6,0,5,0,5,0
+tp-foyer,tn.esprit.tpfoyer,TpFoyerApplication,8,0,0,0,3,0,2,0,2,0
+tp-foyer,tn.esprit.tpfoyer.control,UniversiteRestController,0,32,0,0,0,10,0,5,0,5
+tp-foyer,tn.esprit.tpfoyer.control,ChambreRestController,44,0,0,0,13,0,7,0,7,0
+tp-foyer,tn.esprit.tpfoyer.control,BlocRestController,42,0,0,0,12,0,7,0,7,0
+tp-foyer,tn.esprit.tpfoyer.control,ReservationRestController,38,0,0,0,11,0,6,0,6,0
+tp-foyer,tn.esprit.tpfoyer.control,EtudiantRestController,40,0,0,0,12,0,6,0,6,0
+tp-foyer,tn.esprit.tpfoyer.control,FoyerRestController,32,0,0,0,10,0,5,0,5,0
+tp-foyer,tn.esprit.tpfoyer.entity,TypeChambre,21,0,0,0,2,0,1,0,1,0
+tp-foyer,tn.esprit.tpfoyer.config,ConfigAOP,39,0,0,0,13,0,5,0,5,0

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UniversiteServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tp-foyer</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.tpfoyer.service</a> &gt; <span class="el_source">UniversiteServiceImpl.java</span></div><h1>UniversiteServiceImpl.java</h1><pre class="source lang-java linenums">package tn.esprit.tpfoyer.service;
+
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import tn.esprit.tpfoyer.entity.Universite;
+import tn.esprit.tpfoyer.repository.UniversiteRepository;
+import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
+@Service
+@AllArgsConstructor
+public class UniversiteServiceImpl implements IUniversiteService {
+
+<span class="fc" id="L17">    private static final Logger logger = LogManager.getLogger(UniversiteServiceImpl.class);</span>
+
+    UniversiteRepository universiteRepository;
+
+    public List&lt;Universite&gt; retrieveAllUniversites() {
+<span class="fc" id="L22">        logger.info(&quot;Récupération de toutes les universités&quot;);</span>
+<span class="fc" id="L23">        List&lt;Universite&gt; universites = universiteRepository.findAll();</span>
+<span class="fc" id="L24">        logger.info(&quot;Nombre total d'universités : {}&quot;, universites.size());</span>
+<span class="fc" id="L25">        return universites;</span>
+    }
+
+    public Universite retrieveUniversite(Long universiteId) {
+<span class="fc" id="L29">        logger.info(&quot;Récupération de l'université avec ID : {}&quot;, universiteId);</span>
+<span class="fc" id="L30">        Universite universite = universiteRepository.findById(universiteId).orElse(null);</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (universite != null) {</span>
+<span class="fc" id="L32">            logger.info(&quot;Université trouvée : {}&quot;, universite);</span>
+        } else {
+<span class="nc" id="L34">            logger.warn(&quot;Aucune université trouvée avec l'ID : {}&quot;, universiteId);</span>
+        }
+<span class="fc" id="L36">        return universite;</span>
+    }
+
+    public Universite addUniversite(Universite u) {
+<span class="fc" id="L40">        logger.info(&quot;Ajout d'une nouvelle université : {}&quot;, u);</span>
+<span class="fc" id="L41">        Universite savedUniversite = universiteRepository.save(u);</span>
+<span class="fc" id="L42">        logger.info(&quot;Université ajoutée avec succès avec ID : {}&quot;, savedUniversite.getIdUniversite());</span>
+<span class="fc" id="L43">        return savedUniversite;</span>
+    }
+
+    public Universite modifyUniversite(Universite universite) {
+<span class="fc" id="L47">        logger.info(&quot;Modification de l'université avec ID : {}&quot;, universite.getIdUniversite());</span>
+<span class="fc" id="L48">        Universite updatedUniversite = universiteRepository.save(universite);</span>
+<span class="fc" id="L49">        logger.info(&quot;Université modifiée avec succès : {}&quot;, updatedUniversite);</span>
+<span class="fc" id="L50">        return updatedUniversite;</span>
+    }
+
+    public void removeUniversite(Long universiteId) {
+<span class="fc" id="L54">        logger.info(&quot;Suppression de l'université avec ID : {}&quot;, universiteId);</span>
+<span class="fc" id="L55">        universiteRepository.deleteById(universiteId);</span>
+<span class="fc" id="L56">        logger.info(&quot;Université avec ID : {} supprimée&quot;, universiteId);</span>
+<span class="fc" id="L57">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

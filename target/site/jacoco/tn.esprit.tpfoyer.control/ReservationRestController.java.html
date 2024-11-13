@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationRestController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tp-foyer</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.tpfoyer.control</a> &gt; <span class="el_source">ReservationRestController.java</span></div><h1>ReservationRestController.java</h1><pre class="source lang-java linenums">package tn.esprit.tpfoyer.control;
+
+import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.tpfoyer.entity.Reservation;
+import tn.esprit.tpfoyer.service.IReservationService;
+
+import java.util.Date;
+import java.util.List;
+
+@RestController
+@AllArgsConstructor
+@RequestMapping(&quot;/reservation&quot;)
+public class ReservationRestController {
+
+    IReservationService reservationService;
+
+    // http://localhost:8089/tpfoyer/reservation/retrieve-all-reservations
+    @GetMapping(&quot;/retrieve-all-reservations&quot;)
+    public List&lt;Reservation&gt; getReservations() {
+<span class="nc" id="L22">        List&lt;Reservation&gt; listReservations = reservationService.retrieveAllReservations();</span>
+<span class="nc" id="L23">        return listReservations;</span>
+    }
+    // http://localhost:8089/tpfoyer/reservation/retrieve-reservation/8
+    @GetMapping(&quot;/retrieve-reservation/{reservation-id}&quot;)
+    public Reservation retrieveReservation(@PathVariable(&quot;reservation-id&quot;) String rId) {
+<span class="nc" id="L28">        Reservation reservation = reservationService.retrieveReservation(rId);</span>
+<span class="nc" id="L29">        return reservation;</span>
+    }
+
+
+
+
+
+
+
+    @GetMapping(&quot;/retrieve-reservation-date-status/{d}/{v}&quot;)
+    public List&lt;Reservation&gt; retrieveReservationParDateEtStatus
+            (@PathVariable(&quot;d&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date d, @PathVariable(&quot;v&quot;) boolean b) {
+<span class="nc" id="L41">        return reservationService.trouverResSelonDateEtStatus(d, b);</span>
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // http://localhost:8089/tpfoyer/reservation/add-reservation
+    @PostMapping(&quot;/add-reservation&quot;)
+    public Reservation addReservation(@RequestBody Reservation r) {
+<span class="nc" id="L57">        Reservation reservation = reservationService.addReservation(r);</span>
+<span class="nc" id="L58">        return reservation;</span>
+    }
+
+    // http://localhost:8089/tpfoyer/reservation/remove-reservation/{reservation-id}
+    @DeleteMapping(&quot;/remove-reservation/{reservation-id}&quot;)
+    public void removeReservation(@PathVariable(&quot;reservation-id&quot;) String rId) {
+<span class="nc" id="L64">        reservationService.removeReservation(rId);</span>
+<span class="nc" id="L65">    }</span>
+
+    // http://localhost:8089/tpfoyer/reservation/modify-reservation
+    @PutMapping(&quot;/modify-reservation&quot;)
+    public Reservation modifyReservation(@RequestBody Reservation r) {
+<span class="nc" id="L70">        Reservation reservation = reservationService.modifyReservation(r);</span>
+<span class="nc" id="L71">        return reservation;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
