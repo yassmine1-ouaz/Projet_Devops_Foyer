@@ -29,7 +29,7 @@ public class BlocServiceImpl  implements IBlocService {
         for (Bloc b: listB) {
             log.info("Bloc : " + b);
         }
- 
+
         return listB;
     }
 
