@@ -22,7 +22,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=db
-  front-kaddem:
+  front-malekfoyer:
     image: malekchouaya/foyerfront
     ports:
       - "80:80"
