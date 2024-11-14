@@ -92,12 +92,34 @@ pipeline {
             }
         }
     }
-    post {
-        success {
-            slackSend channel: '#devops-notification', color: 'green', message: 'Build success', teamDomain: 'Devops', tokenCredentialId: 'slack-token'
-        }
-        failure {
-            slackSend channel: '#devops-notification', color: 'red', message: 'Build failed', teamDomain: 'Devops', tokenCredentialId: 'slack-token'
-        }
-    }
+     post {
+             success {
+                 script {
+                     // Statut de réussite du build
+                     def buildStatus = 'SUCCESS'
+                     def color = 'good'
+
+                     // Envoi de la notification Slack pour un build réussi
+                     slackSend(
+                         channel: '#devops-notification',
+                         color: color,
+                         message: "Build ${buildStatus}: ${env.JOB_NAME} #${env.BUILD_NUMBER} - <${env.BUILD_URL}|Cliquez ici pour plus de détails>"
+                     )
+                 }
+             }
+             failure {
+                 script {
+                     // Statut d'échec du build
+                     def buildStatus = 'FAILURE'
+                     def color = 'danger'
+
+                     // Envoi de la notification Slack pour un build échoué
+                     slackSend(
+                         channel: '#devops-notification',
+                         color: color,
+                         message: "Build ${buildStatus}: ${env.JOB_NAME} #${env.BUILD_NUMBER} - <${env.BUILD_URL}|Cliquez ici pour plus de détails>"
+                     )
+                 }
+             }
+         }
 }
