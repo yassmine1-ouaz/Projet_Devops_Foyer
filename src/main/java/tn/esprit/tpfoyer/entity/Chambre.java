@@ -34,4 +34,10 @@ public class Chambre {
     @ManyToOne(cascade = CascadeType.ALL)
     Bloc bloc;
 
+    public Chambre(long l, int i, Bloc bloc) {
+
+        this.numeroChambre = l;
+        this.bloc = bloc;
+        this.idChambre = i;
+    }
 }
