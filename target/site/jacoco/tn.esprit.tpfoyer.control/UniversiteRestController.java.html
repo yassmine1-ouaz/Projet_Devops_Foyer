@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UniversiteRestController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tp-foyer</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.tpfoyer.control</a> &gt; <span class="el_source">UniversiteRestController.java</span></div><h1>UniversiteRestController.java</h1><pre class="source lang-java linenums">package tn.esprit.tpfoyer.control;
+
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.tpfoyer.entity.Universite;
+import tn.esprit.tpfoyer.service.IUniversiteService;
+
+import java.util.List;
+
+@RestController
+@AllArgsConstructor
+@RequestMapping(&quot;/universite&quot;)
+public class UniversiteRestController {
+
+    IUniversiteService universiteService;
+
+    // http://localhost:8089/tpfoyer/universite/retrieve-all-universites
+    @GetMapping(&quot;/retrieve-all-universites&quot;)
+    public List&lt;Universite&gt; getUniversites() {
+<span class="nc" id="L20">        List&lt;Universite&gt; listUniversites = universiteService.retrieveAllUniversites();</span>
+<span class="nc" id="L21">        return listUniversites;</span>
+    }
+    // http://localhost:8089/tpfoyer/universite/retrieve-universite/8
+    @GetMapping(&quot;/retrieve-universite/{universite-id}&quot;)
+    public Universite retrieveUniversite(@PathVariable(&quot;universite-id&quot;) Long uId) {
+<span class="nc" id="L26">        Universite universite = universiteService.retrieveUniversite(uId);</span>
+<span class="nc" id="L27">        return universite;</span>
+    }
+
+    // http://localhost:8089/tpfoyer/universite/add-universite
+    @PostMapping(&quot;/add-universite&quot;)
+    public Universite addUniversite(@RequestBody Universite u) {
+<span class="nc" id="L33">        Universite universite = universiteService.addUniversite(u);</span>
+<span class="nc" id="L34">        return universite;</span>
+    }
+
+    // http://localhost:8089/tpfoyer/universite/remove-universite/{universite-id}
+    @DeleteMapping(&quot;/remove-universite/{universite-id}&quot;)
+    public void removeUniversite(@PathVariable(&quot;universite-id&quot;) Long uId) {
+<span class="nc" id="L40">        universiteService.removeUniversite(uId);</span>
+<span class="nc" id="L41">    }</span>
+
+    // http://localhost:8089/tpfoyer/universite/modify-universite
+    @PutMapping(&quot;/modify-universite&quot;)
+    public Universite modifyUniversite(@RequestBody Universite u) {
+<span class="nc" id="L46">        Universite universite = universiteService.modifyUniversite(u);</span>
+<span class="nc" id="L47">        return universite;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

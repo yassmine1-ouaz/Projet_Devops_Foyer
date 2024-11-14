@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConfigAOP.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tp-foyer</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.tpfoyer.config</a> &gt; <span class="el_source">ConfigAOP.java</span></div><h1>ConfigAOP.java</h1><pre class="source lang-java linenums">package tn.esprit.tpfoyer.config;
+
+
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
+
+@Component
+@Aspect
+<span class="nc" id="L15">@Slf4j</span>
+<span class="nc" id="L16">public class ConfigAOP {</span>
+
+    @Before(&quot;execution(* tn.esprit.tpfoyer.service.*.*(..))&quot;)
+    public void logMethodEntry(JoinPoint joinPoint) {
+<span class="nc" id="L20">        String name = joinPoint.getSignature().getName();</span>
+<span class="nc" id="L21">        log.info(&quot;In Metod AOP : &quot; + name);</span>
+<span class="nc" id="L22">    }</span>
+
+    @After(&quot;execution(* tn.esprit.tpfoyer.service.*.add*(..))&quot;)
+    public void logMethodOut(JoinPoint joinPoint) {
+<span class="nc" id="L26">        String name = joinPoint.getSignature().getName();</span>
+<span class="nc" id="L27">        log.info(&quot;Execution Réussie ! &quot;);</span>
+<span class="nc" id="L28">    }</span>
+
+    @Around(&quot;execution(* tn.esprit.tpfoyer.service.*.*(..))&quot;)
+    public Object profile(ProceedingJoinPoint pjp) throws Throwable
+    {
+<span class="nc" id="L33">        long start= System.currentTimeMillis();</span>
+
+<span class="nc" id="L35">        Object obj= pjp.proceed();</span>
+
+<span class="nc" id="L37">        long elapsedTime= System.currentTimeMillis() -start;</span>
+
+<span class="nc" id="L39">        log.info(&quot;Methodexecutiontime: &quot; + elapsedTime+ &quot; milliseconds.&quot;);</span>
+<span class="nc" id="L40">        return obj;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
