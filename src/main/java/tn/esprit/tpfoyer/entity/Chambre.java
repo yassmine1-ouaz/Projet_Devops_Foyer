@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
+import lombok.Builder;
+
 
 
 @Entity
@@ -14,7 +16,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+
 public class Chambre {
 
     @Id
@@ -34,4 +38,9 @@ public class Chambre {
     @ManyToOne(cascade = CascadeType.ALL)
     Bloc bloc;
 
+
+    public Chambre(long l, int i) {
+        this.numeroChambre = l;
+        this.idChambre = i;
+    }
 }
